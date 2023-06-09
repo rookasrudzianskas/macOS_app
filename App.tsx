@@ -35,7 +35,8 @@ const defaultReminders: Reminder[] = [
 function App(): JSX.Element {
   const [reminders, setReminders] = useState<Reminder[]>(defaultReminders);
   const [newReminder, setNewReminder] = useState('');
-  const sortedReminders= reminders.toSorted((a, b) => a.completed - b.completed)
+  const sortedReminders = [...reminders];
+  sortedReminders.sort((a, b) => a.completed - b.completed);
 
   const toggleCompletion = (index: number) => {
     const updatedReminders = [...reminders];

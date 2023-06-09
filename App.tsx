@@ -38,8 +38,9 @@ function App(): JSX.Element {
   const sortedReminders = [...reminders];
   sortedReminders.sort((a, b) => a.completed - b.completed);
 
-  const toggleCompletion = (index: number) => {
+  const toggleCompletion = (reminder: Reminder) => {
     const updatedReminders = [...reminders];
+    const index = reminders.findIndex((r) => r.title === reminder.title);
     updatedReminders[index].completed = !updatedReminders[index].completed;
     setReminders(updatedReminders);
   };
@@ -55,10 +56,10 @@ function App(): JSX.Element {
     }
   };
 
-  const renderItem = ({item, index}: {item: Reminder; index: number}) => {
+  const renderItem = ({item}: {item: Reminder}) => {
     return (
       <TouchableOpacity
-        onPress={() => toggleCompletion(index)}
+        onPress={() => toggleCompletion(item)}
         style={styles.item}
       >
         <View style={styles.item}>

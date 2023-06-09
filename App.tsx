@@ -73,6 +73,10 @@ function App(): JSX.Element {
 
   return (
     <View style={styles.container}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <Text style={styles.title}>Reminders</Text>
+        <Text style={styles.title}>{reminders.length}</Text>
+      </View>
       <FlatList data={reminders} renderItem={renderItem} />
       <TextInput
         style={styles.input}
@@ -107,7 +111,12 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#454547',
     borderRadius: 5,
-  }
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: 'royalblue',
+  },
 });
 
 export default App;

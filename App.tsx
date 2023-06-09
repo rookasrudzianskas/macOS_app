@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from "react";
 import {
+  FlatList,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
-  View,
-} from 'react-native';
+  View
+} from "react-native";
 import { RadioButton } from "react-native-paper";
 
 type Reminder = {
@@ -43,17 +44,11 @@ const renderItem = ({item, index}: {item: Reminder; index: number}) => (
 
 
 function App(): JSX.Element {
+  const [reminders, setReminders] = useState<Reminder[]>(defaultReminders);
 
   return (
     <View style={styles.container}>
-      <View style={styles.item}>
-        <RadioButton
-          value={'Subscribe to Rokas Rudzianskas'}
-          status={'unchecked'}
-          color="royalblue"
-        />
-        <Text style={styles.itemTitle}>Subscribe to Rokas Rudzianskas</Text>
-      </View>
+      <FlatList data={reminders} renderItem={renderItem} />
     </View>
   );
 }

@@ -5,7 +5,7 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
+  Text, TextInput, TouchableOpacity,
   useColorScheme,
   View
 } from "react-native";
@@ -31,24 +31,56 @@ const defaultReminders: Reminder[] = [
   },
 ];
 
-const renderItem = ({item, index}: {item: Reminder; index: number}) => (
-  <View style={styles.item}>
-    <RadioButton
-      value={item.title}
-      status={item.completed ? 'checked' : 'unchecked'}
-      color="royalblue"
-    />
-    <Text style={styles.itemTitle}>{item.title}</Text>
-  </View>
-);
-
 
 function App(): JSX.Element {
   const [reminders, setReminders] = useState<Reminder[]>(defaultReminders);
+  const [newReminder, setNewReminder] = useState('');
+
+  const renderItem = ({item, index}: {item: Reminder; index: number}) => {
+    return (
+      <TouchableOpacity
+        onPress={() => toggleCompletion(index)}
+        style={styles.item}
+      >
+        <View style={styles.item}>
+          <RadioButton
+            value={item.title}
+            status={item.completed ? 'checked' : 'unchecked'}
+            color="royalblue"
+          />
+          <Text style={styles.itemTitle}>{item.title}</Text>
+        </View>
+      </TouchableOpacity>
+    )
+  };
+
+  const toggleCompletion = (index: number) => {
+    const updatedReminders = [...reminders];
+    updatedReminders[index].completed = !updatedReminders[index].completed;
+    setReminders(updatedReminders);
+  };
+
+  const addReminder = () => {
+    if (newReminder.trim() !== '') {
+      const updatedReminders = [
+        ...reminders,
+        {title: newReminder, completed: false},
+      ];
+      setReminders(updatedReminders);
+      setNewReminder('');
+    }
+  };
 
   return (
     <View style={styles.container}>
       <FlatList data={reminders} renderItem={renderItem} />
+      <TextInput
+        style={styles.input}
+        onChangeText={setNewReminder}
+        value={newReminder}
+        placeholder="Add a new reminder"
+        onSubmitEditing={addReminder}
+      />
     </View>
   );
 }
@@ -70,6 +102,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 5,
   },
+  input: {
+    padding: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#454547',
+    borderRadius: 5,
+  }
 });
 
 export default App;

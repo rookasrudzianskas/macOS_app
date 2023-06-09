@@ -35,6 +35,24 @@ const defaultReminders: Reminder[] = [
 function App(): JSX.Element {
   const [reminders, setReminders] = useState<Reminder[]>(defaultReminders);
   const [newReminder, setNewReminder] = useState('');
+  const sortedReminders= reminders.toSorted((a, b) => a.completed - b.completed)
+
+  const toggleCompletion = (index: number) => {
+    const updatedReminders = [...reminders];
+    updatedReminders[index].completed = !updatedReminders[index].completed;
+    setReminders(updatedReminders);
+  };
+
+  const addReminder = () => {
+    if (newReminder.trim() !== '') {
+      const updatedReminders = [
+        ...reminders,
+        {title: newReminder, completed: false},
+      ];
+      setReminders(updatedReminders);
+      setNewReminder('');
+    }
+  };
 
   const renderItem = ({item, index}: {item: Reminder; index: number}) => {
     return (
@@ -54,30 +72,13 @@ function App(): JSX.Element {
     )
   };
 
-  const toggleCompletion = (index: number) => {
-    const updatedReminders = [...reminders];
-    updatedReminders[index].completed = !updatedReminders[index].completed;
-    setReminders(updatedReminders);
-  };
-
-  const addReminder = () => {
-    if (newReminder.trim() !== '') {
-      const updatedReminders = [
-        ...reminders,
-        {title: newReminder, completed: false},
-      ];
-      setReminders(updatedReminders);
-      setNewReminder('');
-    }
-  };
-
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text style={styles.title}>Reminders</Text>
         <Text style={styles.title}>{reminders.length}</Text>
       </View>
-      <FlatList data={reminders} renderItem={renderItem} />
+      <FlatList data={sortedReminders} renderItem={renderItem} />
       <TextInput
         style={styles.input}
         onChangeText={setNewReminder}

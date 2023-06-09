@@ -8,6 +8,38 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { RadioButton } from "react-native-paper";
+
+type Reminder = {
+  title: string;
+  completed: boolean;
+};
+
+const defaultReminders: Reminder[] = [
+  {
+    title: 'Subscribe to notJust.dev',
+    completed: false,
+  },
+  {
+    title: 'Build exciting apps',
+    completed: false,
+  },
+  {
+    title: 'Be happy',
+    completed: false,
+  },
+];
+
+const renderItem = ({item, index}: {item: Reminder; index: number}) => (
+  <View style={styles.item}>
+    <RadioButton
+      value={item.title}
+      status={item.completed ? 'checked' : 'unchecked'}
+      color="royalblue"
+    />
+    <Text style={styles.itemTitle}>{item.title}</Text>
+  </View>
+);
 
 
 function App(): JSX.Element {

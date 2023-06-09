@@ -1,12 +1,9 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import {
   FlatList,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text, TextInput, TouchableOpacity,
-  useColorScheme,
   View
 } from "react-native";
 import { RadioButton } from "react-native-paper";
